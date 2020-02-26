@@ -3,6 +3,8 @@ import { connect } from '@tarojs/redux'
 import { bindActionCreators } from 'redux'
 import Taro, { Component, Config } from '@tarojs/taro'
 
+import '@/app.less'
+import '@css/home/home.less'
 import * as actions from '@actions/homeAction'
 
 @connect(
@@ -15,6 +17,10 @@ import * as actions from '@actions/homeAction'
 
 class HomePage extends Component {
 
+  static options = {
+    addGlobalClass: true
+  }
+
   componentDidMount () {
     this.props.actions.getBanners()
   }
@@ -24,16 +30,19 @@ class HomePage extends Component {
     return (
       <View className='home'>
       { !!loading ?
-        <View>
-        loading
+        <View className='full-screen'>
+          <View className='loading-view'>
+          { 'loading' }
+          </View>
         </View> :
         <View>
         { banners.map((item, index) => {
             return (
               <Image
+                className='home-banner-img'
                 key={index}
-                mode={'aspectFit'}
-                src={item.image.thumb80}/>
+                mode={'aspectFill'}
+                src={item.image.url}/>
             )
           })
         }
